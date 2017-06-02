@@ -1,0 +1,5 @@
+video_20170530_122330.avi L=10 N=1000 b=10.0 iterations=1000000 frames=1000 scale=30
+video_20170530_122435.avi L=10 N=200 b=10.0 iterations=1000000 frames=1000 scale=30
+video_20170530_122615.avi L=20 N=1000 b=12.0 iterations=10000000 frames=10000 scale=15
+video_20170530_122720.avi L=20 N=1000 b=12.0 iterations=10000000 frames=10000 scale=15
+video_20170530_122741.avi L=20 N=1000 b=12.0 iterations=100000000 frames=100000 scale=15

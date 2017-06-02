@@ -1,0 +1,11 @@
+LSFIT_LIB=/home/stavros/Desktop/diploma/lsfit/lsfit.o
+FLAGS=-O3 -Wall
+
+all: walk walk_loop
+
+walk: walk.c
+	gcc $(FLAGS) walk.c -o walk -lm
+
+walk_loop: walk_loop.c
+	gcc $(FLAGS) -c walk_loop.c -lm
+	gcc $(FLAGS) walk_loop.o $(LSFIT_LIB) -o walk_loop -lm
