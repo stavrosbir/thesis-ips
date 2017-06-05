@@ -48,16 +48,6 @@ void print_space(int **space, int L) {
 	int i, j, sum;
 	for (i = 0; i < L; i++) {
 		for (j = 0; j < L; j++) {
-			// sum = space[torus_minus(i, L)][torus_minus(j, L)]
-			// 	+ space[torus_minus(i, L)][j]
-			// 	+ space[torus_minus(i, L)][torus_plus(j, L)]
-			// 	+ space[i][torus_minus(j, L)]
-			// 	+ space[i][j]
-			// 	+ space[i][torus_plus(j, L)]
-			// 	+ space[torus_plus(i, L)][torus_minus(j, L)]
-			// 	+ space[torus_plus(i, L)][j]
-			// 	+ space[torus_plus(i, L)][torus_plus(j, L)];
-			// printf("%.3lf ", sum/9.0);
 			printf("%d ", space[i][j]);
 		}
 		printf("\n");
@@ -136,12 +126,10 @@ void zero_range_2d(int L, int N, double b, int iterations, int frames) {
 
 		// print frame
 		if (k % frames == 0) {
-			// printf("lf\n", total_time);
 			print_space(space, L);
 		}
 	}
 
-	// printf("lf\n", total_time);
 	print_space(space, L);
 }
 

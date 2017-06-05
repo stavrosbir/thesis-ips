@@ -168,7 +168,7 @@ int main(int argc, char **argv) {
 		c = sumy * sumx2 - sumx * sumxy,
 		den = points * sumx2 - sumx * sumx;
 	
-	printf("tagged_scaled = %lf * t^%lf\n", c/den, a/den);
+	printf("tagged_scaled = %lf * t^%lf\n", exp(c/den), a/den);
 
 	// Store somewhere all the results
 	FILE *f;
@@ -177,7 +177,7 @@ int main(int argc, char **argv) {
 		fprintf(f, "%s ", argv[i]);
 	}
 	fprintf(f, "; ");
-	fprintf(f, "tagged_scaled = %lf * t^%lf\n", c/den, a/den);
+	fprintf(f, "tagged_scaled = %lf * t^%lf\n", exp(c/den), a/den);
 	fclose(f);
 
 	return 0;
