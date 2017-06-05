@@ -92,7 +92,7 @@ void simple_exclusion(int N, double *ret) {
 	// printf("%lf -> %d\n", total_time, particles[N-1]-N);
 	// printf("%d\n", current_I((int)round(total_time/2), particles, N));
 	ret[0] = total_time;
-	ret[1] = fabs(1.0*current_I((int)round(total_time/2), particles, N)/total_time - 1/16.0);
+	ret[1] = abs(1.0*current_I((int)round(total_time/2), particles, N)/total_time - 1/16.0);
 }
 
 int main(int argc, char **argv) {
@@ -134,7 +134,7 @@ int main(int argc, char **argv) {
 		c = sumy * sumx2 - sumx * sumxy,
 		den = total * sumx2 - sumx * sumx;
 	
-	printf("Var-current_I = %lf * t^%lf\n", exp(c/den), a/den);
+	printf("Var_current_I = %lf * t^%lf\n", exp(c/den), a/den);
 
 	// Store somewhere all the results
 	FILE *f;
