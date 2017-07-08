@@ -6,6 +6,15 @@
 #include <time.h>
 #include <math.h>
 
+double rand_exp(double lambda) {
+	if (lambda == 0) {
+		return DBL_MAX;
+	} else {
+		double u = rand() / (RAND_MAX + 1.0);
+		return -log(1 - u) / lambda;
+	}
+}
+
 double g(double b, int x) {
 	if (x) {
 		return 1 + b / x;
@@ -39,8 +48,7 @@ double bulk_density(int *space, int start, int L) {
 void zero_range(int L, int N, double b) {
 
 	int i, current, next;
-	long long int total_time;
-	double my_dice, sum, partial_sum, critical_density = 1.0/(b-2);
+	double total_time, my_dice, sum, partial_sum, critical_density = 1.0/(b-2), csd = (b-1)/((b-2)*sqrt(b-3));
 
 	int *space;
 	space = calloc(L, sizeof(int));
@@ -62,7 +70,8 @@ void zero_range(int L, int N, double b) {
 	}
 
 	total_time = 0;
-	while (bulk_density(space, bulk_start, bulk_L) > critical_density) {
+	// while (bulk_density(space, bulk_start, bulk_L) > critical_density) {
+	while (space[0] <= N-critical_density*L-csd*sqrt(L)) {
 		
 		// choose position
 		my_dice = (rand() / (RAND_MAX + 1.0)) * sum;
@@ -75,16 +84,16 @@ void zero_range(int L, int N, double b) {
 			}
 		}
 
+		total_time += rand_exp(sum);
+
 		// move particle
 		next = (rand() % 2) ? ((current + 1) % L) : ((current ? current : L) - 1);
 		sum -= g(b, space[current]) + g(b, space[next]);
 		sum += g(b, --space[current]) + g(b, ++space[next]);
-		total_time++;
 
 	}
 	
-	printf("%lld\n", total_time);
-	// print_space(space, L);
+	printf("%lf\n", total_time);
 }
 
 int main(int argc, char **argv) {

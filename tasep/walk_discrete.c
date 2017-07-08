@@ -1,5 +1,5 @@
 // Stavros Birmpilis
-// 5/6/17
+// 2/6/17
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,7 +45,7 @@ int current_I(int x, int *particles, int N) {
 	return 0;
 }
 
-void simple_exclusion(int N, double *ret) {
+void simple_exclusion(int N) {
 
 	int i, index, position, sum, partial_sum;
 	double total_time, my_dice;
@@ -98,62 +98,15 @@ void simple_exclusion(int N, double *ret) {
 	}
 	
 	// printf("%lf -> %d\n", total_time, particles[N-1]-N);
-	// printf("%d\n", current_I((int)round(total_time/2), particles, N));
-	ret[0] = total_time;
-	ret[1] = fabs(1.0*current_I(total_time/2, particles, N)/total_time - 1/16.0);
+	printf("%d\n", current_I(total_time/2, particles, N));
 }
 
 int main(int argc, char **argv) {
-	
-	int i, j, N, points, samples_per_point, N_step, N_start;
-	double x[1000], y[1000], ret[2];
+	int N;
 
-	points = atoi(argv[1]);
-	samples_per_point = atoi(argv[2]);
-	N_step = atoi(argv[3]);
-	N_start = (argc > 4) ? atoi(argv[4]) : N_step;
+	N = atoi(argv[1]);
 
-	N = N_start;
-
-	for (i = 0; i < points; i++) {
-
-		for (j = 0; j < samples_per_point; j++) {
-			printf("%d\n", i*samples_per_point+j);
-			simple_exclusion(N, ret);
-			printf("%d %.2lf %lf\n", N, ret[0], ret[1]);
-			x[i*samples_per_point+j] = log(ret[0]);
-			y[i*samples_per_point+j] = log(ret[1]);
-		}
-
-		N *= N_step;
-
-	}
-
-	// least squares fitting
-	int total = points * samples_per_point;
-	double sumx = 0, sumy = 0, sumx2 = 0, sumxy = 0;
-	for(i = 0; i < total; i++) {
-		sumx += x[i];
-		sumy += y[i];
-		sumxy += x[i]*y[i];
-		sumx2 += x[i]*x[i];
-	}
-	double a = total * sumxy - sumx * sumy,
-		c = sumy * sumx2 - sumx * sumxy,
-		den = total * sumx2 - sumx * sumx;
-	
-	printf("Var_current_I = %lf * t^%lf\n", exp(c/den), a/den);
-
-	// Store somewhere all the results
-	FILE *f;
-	f = fopen("log.out", "a");
-	for(i = 1; i < argc; i++) {
-		fprintf(f, "%s ", argv[i]);
-	}
-	fprintf(f, "; ");
-	fprintf(f, "current_I = %lf * t^%lf\n", exp(c/den), a/den);
-	fclose(f);
-
+	simple_exclusion(N);
 
 	return 0;
 }

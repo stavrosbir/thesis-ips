@@ -6,6 +6,15 @@
 #include <time.h>
 #include <math.h>
 
+double rand_exp(double lambda) {
+	if (lambda == 0) {
+		return DBL_MAX;
+	} else {
+		double u = rand() / (RAND_MAX + 1.0);
+		return -log(1 - u) / lambda;
+	}
+}
+
 double g(double b, int x) {
 	if (x) {
 		return 1 + b / x;
@@ -28,11 +37,10 @@ void print_space(int *space, int L) {
 	printf("\n");
 }
 
-void zero_range(int L, int N, double b, long int time, int class) {
+void zero_range(int L, int N, double b, int time, int class) {
 
 	int i, current, next, move_tagged;
-	long int total_time;
-	double my_dice, sum, partial_sum;
+	double my_dice, sum, partial_sum, total_time;
 
 	int *space;
 	space = calloc(L, sizeof(int));
@@ -68,6 +76,8 @@ void zero_range(int L, int N, double b, long int time, int class) {
 			}
 		}
 
+		total_time = rand_exp(sum);
+
 		// move particle
 		next = (rand() % 2) ? ((current + 1) % L) : ((current ? current : L) - 1);
 
@@ -81,7 +91,6 @@ void zero_range(int L, int N, double b, long int time, int class) {
 
 		sum -= g(b, space[current]) + g(b, space[next]);
 		sum += g(b, --space[current]) + g(b, ++space[next]);
-		total_time++;
 
 	}
 
@@ -90,15 +99,16 @@ void zero_range(int L, int N, double b, long int time, int class) {
 }
 
 int main(int argc, char **argv) {
-	int L, N, class;
+	int L, N, class, time;
 	double b;
 
 	L = atoi(argv[1]);
 	N = atoi(argv[2]);
 	b = atof(argv[3]);
-	class = atoi(argv[4]);
+	time = atoi(argv[4])
+	class = atoi(argv[5]);
 
-	zero_range(L, N, b, 100, class);
+	zero_range(L, N, b, time, class);
 
 	return 0;
 }

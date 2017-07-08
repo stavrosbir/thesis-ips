@@ -8,17 +8,22 @@ def transform(x):
 
 
 def transform_to_RGB(x):
-	big = int(round(1020 * log10(x+1) / log10(max_x+1)))
+	#big = int(round(1020 * log10(x+1) / log10(max_x+1)))
+	big = int(round(765 * log10(x+1) / log10(max_x+1)))
 	if big < 255:
 		return (255, 255, 255-big)
 	elif big < 510:
-		return (255, 255-(big%255), 0)
+		return (255-(big%255), 255, 0)
+#	elif big < 765:
+#		return (255, 0, big%255)
+#	elif big < 1020:
+#		return (255-(big%255), 0, 255)
+#	else:
+#		return (0, 0, 255)
 	elif big < 765:
-		return (255, 0, big%255)
-	elif big < 1020:
-		return (255-(big%255), 0, 255)
+		return (0, 255-(big%255), 0)
 	else:
-		return (0, 0, 255)
+		return (0, 0, 0)
 
 
 global max_x

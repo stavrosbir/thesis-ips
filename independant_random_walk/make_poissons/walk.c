@@ -52,7 +52,7 @@ void print_space(int **space, int L) {
 	}
 }
 
-void irw(int L, int N, int stop, int frame) {
+void irw(int L, int N, int stop) {
 
 	int i, j, p, time, particles_up, particles_down, particles_left, particles_right;
 
@@ -67,8 +67,6 @@ void irw(int L, int N, int stop, int frame) {
 
 	time = 0;
 	while (time < stop) {
-		if (time % frame == 0)
-			print_space(space, L);
 		for (i = 0; i < L; i++) {
 			for (j = 0; j < L; j++) {
 				particles_up = 0;
@@ -125,14 +123,13 @@ void irw(int L, int N, int stop, int frame) {
 }
 
 int main(int argc, char **argv) {
-	int L, N, stop, frame;
+	int L, N, stop;
 
 	L = atoi(argv[1]);
 	N = atoi(argv[2]);
 	stop = atoi(argv[3]);
-	frame = atoi(argv[4]);
 
-	irw(L, N, stop, frame);
+	irw(L, N, stop);
 
 	return 0;
 }

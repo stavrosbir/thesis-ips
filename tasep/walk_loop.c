@@ -47,8 +47,8 @@ int current_I(int x, int *particles, int N) {
 
 void simple_exclusion(int N, double *ret) {
 
-	int i, index, position;
-	double total_time, clock, min;
+	int i, index, position, sum, partial_sum;
+	double total_time, my_dice;
 
 	int *space, *particles;
 	space = calloc(100*N, sizeof(int));
@@ -63,26 +63,34 @@ void simple_exclusion(int N, double *ret) {
 		particles[i] = i;
 	}
 
+	sum = 1;
 	total_time = 0;
 	while (space[0]) {
 
-		// find index of min
-		min = DBL_MAX;
+		// choose position
+		my_dice = (rand() / (RAND_MAX + 1.0)) * sum;
+		partial_sum = 0;
 		for (i = 0; i < N; i++) {
 			position = particles[i];
 			if (space[position] && !space[position+1]) {
-				clock = rate_one();
-				if (clock < min) {
-					min = clock;
+				partial_sum++;
+				if (my_dice < partial_sum) {
 					index = i;
+					break;
 				}
 			}
 		}
 
-		total_time += min;
+		total_time += 1.0/sum;
 
 		// move particle
 		position = particles[index];
+		if (space[position-1]) {
+			sum++;
+		}
+		if (space[position+2]) {
+			sum--;
+		}
 		space[position] = 0;
 		space[position+1] = 1;
 		particles[index]++;
@@ -98,7 +106,7 @@ void simple_exclusion(int N, double *ret) {
 int main(int argc, char **argv) {
 	
 	int i, j, N, points, samples_per_point, N_step, N_start;
-	double x[100], y[100], ret[2];
+	double x[1000], y[1000], ret[2];
 
 	points = atoi(argv[1]);
 	samples_per_point = atoi(argv[2]);
